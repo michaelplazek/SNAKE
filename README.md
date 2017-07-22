@@ -1,6 +1,6 @@
 // README.txt - SNAKE by Michael Plazek - mlp93@pitt.edu
 
- *** RUN INSTRUCTIONS ***
+  RUN INSTRUCTIONS 
 
 	(1) open MARS 4.4-Pitt.1
 	(2) open Keyboard and LED Display Simuator from TOOLS 
@@ -9,7 +9,7 @@
 	(5) run
 	(6) begin game by tapping d or the right arrow key
 
- *** GLOBAL VARIABLES ***
+  GLOBAL VARIABLES 
 
 	$t5 = FRONT // begining of memory address for snake body 
 	$t6 = END // end of memory address for snake body 

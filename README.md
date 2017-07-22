@@ -1,6 +1,6 @@
 // README.txt - SNAKE by Michael Plazek - mlp93@pitt.edu
 
-  RUN INSTRUCTIONS 
+ *** RUN INSTRUCTIONS ***
 
 	(1) open MARS 4.4-Pitt.1
 	(2) open Keyboard and LED Display Simuator from TOOLS 
@@ -9,7 +9,7 @@
 	(5) run
 	(6) begin game by tapping d or the right arrow key
 
-  GLOBAL VARIABLES 
+ *** GLOBAL VARIABLES ***
 
 	$t5 = FRONT // begining of memory address for snake body 
 	$t6 = END // end of memory address for snake body 
@@ -42,28 +42,14 @@
 	ADT: Queue
 	IMPLEMENTATION: Circular Buffer
 	
-	DESCRIPTION: Each segment is a half word - 1 byte for x and 1 byte for y. Since x and y must be between 0 and 63, then 1 half will enough room to store any coordinate. The logical size (length), address of head, address of tail and start and end of memory space is stored in registers. The front and end space have far more than enough room for all possible combinations (64^2 = 4096 bytes). When the index is out of bounds, it wraps around to the front memory address again. Initially, I used a fixed array and shifted the elements each time a new segment was added, but I changed it to circular after reading the lab.
-	
 	ie.
 	---------------------
 	| y2 | x2 | y1 | x1 |
-  3 --------------------- 0 : bytes
+      3 --------------------- 0 : bytes
 	
 	|<------WORD------->|
 	
 	
- *** GENERAL EXPLANATION OF PROGRAM ***
- 
-	The general format of the program is 3 phases: (i) initialization, (ii) the main loop, and (iii) the exit loop. The functions for each phase are outlined below. During the initialization phases, we load the board and print the intro text. The walls are loaded with a long series of loops that load red LEDs. While this was NOT a good way to go about doing this, it works perfectly. It was the first portion I wrote and I was a bit out of practice. After the walls, the snake body was loaded from memory, starting at {3,31} and ending at {11,31}. The full description of the snake data structure is above. Next 32 frogs were generated in random coordinates, using my _getRand function. The frogs were loaded last, because if the LED was already green, yellow or red, then a new frog would be generated somewhere where the LED value was 0.  
-	
-	The main loop links to several functions and then jumps back to keep looping until the end conditions are met. First, the button input is checked. If a button was pressed, we check it against several conditions. If it is in the opposite direction of the snake's current movement, then we jump to the end of the function and don't do anything. Otherwise, we add the new direction value to our direction register and continue. If a button has NOT been pressed then we just jump to the end of the function and keep the current direction. Next, we check if we've collected all the frogs. If so, we break out of the main loop and exit. Otherwise, we tick the clock once. After our tick, we look at the position of our head segment. If it's moving through the top or bottom holes, we deal with that by adding or subtracting 63. Otherwise, based on the state of that LED, we go into one of several events. If it's red, the snake then checks if it is a corner. If it is, then you check the next available coordinate. If that is red too then you run into yourself and we jump to the exit loop. If it's clear, the snake makes an orthogonal turn and moves parallel to the wall. If it's green, we add a new slot to our snake data structure and turn the LED yellow. If it is yellow, then we have run into ourselves and we immediately jump to the exit loop. We deal with each case according the current direction it is moving, inside the _moveRight, _moveUp, etc. functions. If none of the end conditions have been met by this point, then we jump back to the start of the main loop and repeat. Also, if b is pressed, then the game ends.
-	
-	Once any of the end conditions are met, ie. we run into ourselves, eat all the frogs, or get trapped in a corner, then we jump to the exit loop. There we print our total game time and score. Then we end the program with a syscall.
-	
-	NOTE: 200ms clock is a bit slow.
-	NOTE: 'b' button ends the game
-	
-	Below are descriptions of all the functions.
 	
 #################################################################################
 	
@@ -212,10 +198,4 @@
 ################################################################################
 
 	The exit loop prints both the time spent in the game and the total points to the console. The program is then terminated.
-	
- *** BUGS/ISSUES ***
- 
-	(FIXED) Sometimes some of the wall LEDs will randomly go out as the snake grows in size. It only happens some times and I could not figure out the cause. 
-	 *SOLVED THE ISSUE BY RELOADING WALLS EACH ITERATION 
-	
-	(1) The arrow keys don't work, but the WSAD do, as well as the direction keys on the LED simulator. Also, if you mash the buttons they tend to freeze up.
+

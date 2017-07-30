@@ -1,5 +1,3 @@
-// README.txt - SNAKE by Michael Plazek - mlp93@pitt.edu
-
  *** RUN INSTRUCTIONS ***
 
 	(1) open MARS 4.4-Pitt.1
@@ -133,7 +131,7 @@
 	
 ################################################################################
 
-	_setLED: sets the LED at coordinate (x,y) to the value of $a2 - prewritten for the lab
+	_setLED: sets the LED at coordinate (x,y) to the value of $a2
 	
 	void _setLED(int x, int y)
 	//	arguments: $a0 is x, $a1 is y
@@ -141,7 +139,7 @@
 	
 ################################################################################
 
-	_getLED: returns the LED value at coordinate (x,y)- prewritten for the lab
+	_getLED: returns the LED value at coordinate (x,y)
 	
 	byte _getLED(int x, int y)
 	//	arguments: $a0 is x, $a1 is y

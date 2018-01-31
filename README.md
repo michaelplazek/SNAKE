@@ -38,8 +38,8 @@ Written in MIPS Assembly Language
 	
 ### Snake Data Structure
  
-ADT: Queue
-IMPLEMENTATION: Circular Buffer
+- ADT: Queue
+- IMPLEMENTATION: Circular Buffer
 	
 ### PART I: Initialization
 

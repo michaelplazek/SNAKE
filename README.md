@@ -1,5 +1,5 @@
 # Snake
-Written in MIPS
+Written in MIPS Assembly Language
 
 ## Run Instructions
 
@@ -17,7 +17,6 @@ Written in MIPS
 - $t7 = TAIL // address of tail
 - $t8 = HEAD // address of head
 - $t9 = total score 
-	
 - $s3 = time // time played in milliseconds
 - $s4 = score // temporary score
 - $s6 = button map // value of input from button presses
@@ -42,28 +41,17 @@ Written in MIPS
 ADT: Queue
 IMPLEMENTATION: Circular Buffer
 	
-ie.
-3 --------------------- 0
-  | y2 | x2 | y1 | x1 |
-3 --------------------- 0 : bytes
-
-  |<------WORD------->|
-	
-	
-	
-
-	
 ### PART I: Initialization
 
-##### _loadWalls
-uses a series of loops that increment the x and y coordinates to build the walls for the board. This is not the best way to do it - but it works fine.
+#### _loadWalls
+uses a series of loops that increment the x and y coordinates to build the walls for the board
 ```	
 void _loadWalls(int x, int y)
 //	arguments: $a0 is x, $a1 is y
 //	returns: none
 ```
 	
-##### _initSnake
+#### _initSnake
 initiates the snake data structure and sets the yellow LEDs on the board for the snake body. Also, finds initial length, tail address, and head address.
 ```
 void _initSnake()
@@ -71,7 +59,7 @@ void _initSnake()
 //	returns: none
 ```
 	
-##### _initFrogs
+#### _initFrogs
 populates the board with 32 green frogs placed random location, using the _getRand method
 ```
 void _initFrogs()
@@ -81,7 +69,7 @@ void _initFrogs()
 
 ### PART 2: Main Loop
  
-##### tick
+#### tick
 sleep syscall for 200 milliseconds. Serves as our clock tick between moves. This makes the game playable.
 ```
 void tick()
@@ -89,7 +77,7 @@ void tick()
 // 	returns: none
 ```
 	
-##### _getButtonPress
+#### _getButtonPress
 Retrieves new button value from memory address if a button has been pressed. Otherwise the button value remains the same from the last tick. This function also deals with when the user tries to move in a direction opposite the one they're moving, ie. trying to move up when they're moving down. To deal with with, we add the last button value with the current value and mask off the last bit. If the bit is a 1 or 5, then the new button press is in the opposite direction and we don't assign the new button value by jumping to the end.
 ```
 byte _getButtonPress()
@@ -97,7 +85,7 @@ byte _getButtonPress()
 //	returns: $t4 is button value
 ```
 
-##### _peek
+#### _peek
 fetches and returns the coordinate from the head of the snake (end of queue)
 ```
 half _peek()
@@ -105,7 +93,7 @@ half _peek()
 //	returns: $v0 is x, $v1 is y
 ```
 
-##### _remove
+#### _remove
 removes and returns the coordinate from the tail of the snake (front of the queue)
 ```	
 half _remove()
@@ -113,7 +101,7 @@ half _remove()
 //	returns: $v0 is x, $v1 is y
 ```
 	
-##### _insert
+#### _insert
 inserts coordinate at the head of the snake (end of queue). Appends coordinate to head of snake and lights up LED.
 ```
 void _insert(int x, int y)
@@ -121,7 +109,7 @@ void _insert(int x, int y)
 //	returns: none
 ```
 	
-##### _getRand
+#### _getRand
 randomly generates an integer between 0 and 63
 ```
 byte _getRand()
@@ -129,7 +117,7 @@ byte _getRand()
 //	returns: $v0 is random integer
 ```
 	
-##### _setLED
+#### _setLED
 sets the LED at coordinate (x,y) to the value of $a2
 ```
 void _setLED(int x, int y)
@@ -137,7 +125,7 @@ void _setLED(int x, int y)
 //	returns: none
 ```
 	
-##### _getLED
+#### _getLED
 returns the LED value at coordinate (x,y)
 ```
 byte _getLED(int x, int y)
@@ -145,7 +133,7 @@ byte _getLED(int x, int y)
 //	returns: $v0 is LED value
 ```
 
-##### events
+#### events
 This is the action function that moves the snake. From within events, we call the _move functions to move in different directions based on the button value. This is called after we tick the clock and retrieve that status of the button in the main loop. We implement movement by inserting at the end of the queue and removing from the front of the queue.
 ```
 void events(int value)
@@ -153,7 +141,7 @@ void events(int value)
 //	returns: none
 ```
 
-##### _moveRight
+#### _moveRight
 checks the space to the right of the head. If the coordinate is a wall, it reacts accordingly. Else if the coordinate is a frog, then it is eaten by the snake. Else if the coordinate is the snake body, then the game is over and we jump to the exit loop. Else the snake moves to the spot.
 ```
 byte _moveRight()
@@ -161,7 +149,7 @@ byte _moveRight()
 //	returns: $t4 is button value (direction)
 ```
 
-##### _moveLeft
+#### _moveLeft
 checks the space to the left of the head. If the coordinate is a wall, it reacts accordingly. Else if the coordinate is a frog, then it is eaten by the snake. Else if the coordinate is the snake body, then the game is over and we jump to the exit loop. Else the snake moves to the spot.
 ```
 byte _moveLeft()
@@ -169,7 +157,7 @@ byte _moveLeft()
 //	returns: $t4 is button value (direction)
 ```
 
-##### _moveUp
+#### _moveUp
 checks the space above the head. If the coordinate is a wall, it reacts accordingly. Else if the coordinate is a frog, then it is eaten by the snake. Else if the coordinate is the snake body, then the game is over and we jump to the exit loop. Else the snake moves to the spot. 
 
 With moveUp, we also check to see if we're moving through the slot in the top wall. If so, we add 63 to our coordinates to send it through the hole at the bottom wall.
@@ -179,7 +167,7 @@ byte _moveUp()
 //	returns: $t4 is button value (direction)
 ```
 
-##### _moveDown
+#### _moveDown
 checks the space below the head. If the coordinate is a wall, it reacts accordingly. Else if the coordinate is a frog, then it is eaten by the snake. Else if the coordinate is the snake body, then the game is over and we jump to the exit loop. Else the snake moves to the spot.
 	
 With moveDown, we check to see if we're moving through the hole in the bottom wall. If so, we subtract 63 from the y coordinate to send it through the hole in the top wall.

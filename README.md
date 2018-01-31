@@ -26,6 +26,7 @@ Written in MIPS Assembly Language
 
 - 00: off
 - 01: red
+- 10: yellow
 - 11: green
 
 ### Button Values

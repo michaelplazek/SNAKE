@@ -3,7 +3,7 @@ Written in MIPS Assembly Language
 
 ## Run Instructions
 
-1. open MARS 4.4-Pitt.1
+1. open MARS 4.4
 2. open Keyboard and LED Display Simuator from TOOLS 
 3. connect LED window to MIPS
 4. open and assemble snake.asm
